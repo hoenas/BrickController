@@ -10,12 +10,12 @@
 #define MOTOR2_PIN2 5
 #define MOTOR3_PIN1 19
 #define MOTOR3_PIN2 21
-#define MOTOR4_PIN1 32
-#define MOTOR4_PIN2 33
-#define MOTOR5_PIN1 12
-#define MOTOR5_PIN2 13
-#define MOTOR6_PIN1 14
-#define MOTOR6_PIN2 15
+#define MOTOR4_PIN1 7
+#define MOTOR4_PIN2 8
+#define MOTOR5_PIN1 13
+#define MOTOR5_PIN2 12
+#define MOTOR6_PIN1 27
+#define MOTOR6_PIN2 33
 #define MOTOR_PIN_COUNT 12
 
 // 12-bit resolution
