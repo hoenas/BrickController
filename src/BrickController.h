@@ -31,21 +31,21 @@
 
 enum Direction
 {
-    Forwards = 0,
-    Backwards = 1
+    Right = 0,
+    Left = 1
 };
 
 class BrickController
 {
 public:
     BrickController();
-    void setMotor(float percentage, Direction direction);
+    void setMotor(uint8_t motor, float speed, Direction direction);
     void setMotors(uint8_t *motors, float *percentages, Direction *directions, uint8_t motorCount);
     void haltMotors();
 
 private:
-    ESP32_FAST_PWM pwmInstances[MOTOR_PIN_COUNT];
-    static uint8_t all_motor_pins[MOTOR_PIN_COUNT] = {MOTOR1_PIN1, MOTOR1_PIN2, MOTOR2_PIN1, MOTOR2_PIN2, MOTOR3_PIN1, MOTOR3_PIN2, MOTOR4_PIN1, MOTOR4_PIN2, MOTOR5_PIN1, MOTOR5_PIN2, MOTOR6_PIN1, MOTOR6_PIN2};
-}
+    ESP32_FAST_PWM *pwmInstances[MOTOR_PIN_COUNT];
+    uint32_t motorPins[MOTOR_PIN_COUNT] = {MOTOR1_PIN1, MOTOR1_PIN2, MOTOR2_PIN1, MOTOR2_PIN2, MOTOR3_PIN1, MOTOR3_PIN2, MOTOR4_PIN1, MOTOR4_PIN2, MOTOR5_PIN1, MOTOR5_PIN2, MOTOR6_PIN1, MOTOR6_PIN2};
+};
 
 #endif // BrickController_h
