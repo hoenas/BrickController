@@ -36,11 +36,18 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, Direction motor
     }
 }
 
-void BrickController::setMotors(uint8_t *motors, float *speeds, Direction *directions, uint8_t motorCount)
+void BrickController::setMotor(uint8_t motor, float motorSpeed, Direction motorDirection, unsigned long duration)
+{
+    this->setMotor(motor, motorSpeed, motorDirection);
+    delay(duration);
+    this->setMotor(motor, DUTY_CYCLE_OFF, motorDirection);
+}
+
+void BrickController::setMotors(uint8_t *motors, float *motorSpeeds, Direction *motorDirections, uint8_t motorCount)
 {
     for (uint8_t i = 0; i < motorCount; i++)
     {
-        this->setMotor(motors[i], speeds[i], directions[i]);
+        this->setMotor(motors[i], motorSpeeds[i], motorDirections[i]);
     }
 }
 

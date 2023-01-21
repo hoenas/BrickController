@@ -23,11 +23,13 @@
 // 1kHz frequency
 #define PWM_FREQUENCY 1000.0f
 // channel 0
-#define PWM_CHANNEL 0
+#define PWM_CHANNEL_COUNT 8
 
 #define DUTY_CYCLE_OFF 0.0f
 #define DUTY_CYCLE_MIN_ON 15.0f
 #define DUTY_CYCLE_MAX_ON 100.0f
+#define DUTY_CYCLE_MAX_ZERO_PERCENTAGE 0.1f
+#define DUTY_CYCLE_GRADIENT (DUTY_CYCLE_MAX_ON - DUTY_CYCLE_MIN_ON)
 
 enum Direction
 {
@@ -39,8 +41,9 @@ class BrickController
 {
 public:
     BrickController();
-    void setMotor(uint8_t motor, float speed, Direction direction);
-    void setMotors(uint8_t *motors, float *percentages, Direction *directions, uint8_t motorCount);
+    void setMotor(uint8_t motor, float motorSpeed, Direction motorDirection);
+    void setMotor(uint8_t motor, float motorSpeed, Direction motorDirection, unsigned long duration);
+    void setMotors(uint8_t *motors, float *motorSpeeds, Direction *motorDirections, uint8_t motorCount);
     void haltMotors();
 
 private:
