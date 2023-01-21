@@ -14,7 +14,25 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, Direction motor
 {
     if (motor > 0 && motor <= MOTOR_PIN_COUNT / 2)
     {
-        this->pwmInstances[2 * motor + motor_direction]->setPWM(motorPins[motor * 2 + motor_direction], PWM_FREQUENCY, motor_speed);
+        float normalized_speed = max(DUTY_CYCLE_OFF, motor_speed);
+        normalized_speed = min(DUTY_CYCLE_MAX_ON, normalized_speed);
+        // Check if speed is below threshold
+        float percentage = DUTY_CYCLE_OFF;
+        if (normalized_speed > DUTY_CYCLE_MAX_ZERO_PERCENTAGE)
+        {
+            percentage = DUTY_CYCLE_GRADIENT * normalized_speed + DUTY_CYCLE_MIN_ON;
+        }
+
+        if (motor_direction)
+        {
+            this->pwmInstances[2 * motor + motor_direction]->setPWM(motorPins[motor * 2], PWM_FREQUENCY, percentage);
+            this->pwmInstances[2 * motor]->setPWM(motorPins[motor * 2 + motor_direction], PWM_FREQUENCY, DUTY_CYCLE_OFF);
+        }
+        else
+        {
+            this->pwmInstances[2 * motor + motor_direction]->setPWM(motorPins[motor * 2], PWM_FREQUENCY, DUTY_CYCLE_OFF);
+            this->pwmInstances[2 * motor + motor_direction]->setPWM(motorPins[motor * 2 + motor_direction], PWM_FREQUENCY, percentage);
+        }
     }
 }
 
