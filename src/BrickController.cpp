@@ -10,7 +10,7 @@ BrickController::BrickController()
     }
 }
 
-void BrickController::setMotor(uint8_t motor, float motor_speed, Direction motor_direction)
+void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_direction)
 {
     if (motor > 0 && motor <= MOTOR_PIN_COUNT / 2)
     {
@@ -36,14 +36,14 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, Direction motor
     }
 }
 
-void BrickController::setMotor(uint8_t motor, float motorSpeed, Direction motorDirection, unsigned long duration)
+void BrickController::setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection, unsigned long duration)
 {
     this->setMotor(motor, motorSpeed, motorDirection);
     delay(duration);
     this->setMotor(motor, DUTY_CYCLE_OFF, motorDirection);
 }
 
-void BrickController::setMotors(uint8_t *motors, float *motorSpeeds, Direction *motorDirections, uint8_t motorCount)
+void BrickController::setMotors(uint8_t *motors, float *motorSpeeds, uint8_t *motorDirections, uint8_t motorCount)
 {
     for (uint8_t i = 0; i < motorCount; i++)
     {
