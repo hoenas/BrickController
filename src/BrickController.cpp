@@ -1,4 +1,4 @@
-#include "BrickController.h
+#include "BrickController.h"
 
 BrickController::BrickController()
 {
