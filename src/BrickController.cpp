@@ -5,7 +5,7 @@ BrickController::BrickController()
     // Setup PWM controllers
     for (int i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        this->pwmInstances[i] = new ESP32_FAST_PWM(this->motorPins[i], PWM_FREQUENCY, DUTY_CYCLE_OFF, i % PWM_CHANNEL_COUNT, PWM_RESOLUTION);
+        this->pwmInstances[i] = new ESP32_FAST_PWM(this->motorPins[i], PWM_FREQUENCY, DUTY_CYCLE_OFF, i, PWM_RESOLUTION);
         this->pwmInstances[i]->setPWM();
     }
 }

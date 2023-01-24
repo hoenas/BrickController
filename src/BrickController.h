@@ -13,7 +13,7 @@
 #define MOTOR4_PIN1 4
 #define MOTOR4_PIN2 33
 #define MOTOR5_PIN1 19
-#define MOTOR5_PIN2 12
+#define MOTOR5_PIN2 21 // check again
 #define MOTOR6_PIN1 8
 #define MOTOR6_PIN2 7
 #define MOTOR_PIN_COUNT 12
@@ -22,8 +22,6 @@
 #define PWM_RESOLUTION 12
 // 1kHz frequency
 #define PWM_FREQUENCY 1000.0f
-// channel 0
-#define PWM_CHANNEL_COUNT 8
 
 #define DUTY_CYCLE_OFF 0.0f
 #define DUTY_CYCLE_MIN_ON 15.0f
