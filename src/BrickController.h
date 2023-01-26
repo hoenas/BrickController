@@ -13,7 +13,7 @@
 #define MOTOR4_PIN1 4
 #define MOTOR4_PIN2 33
 #define MOTOR5_PIN1 19
-#define MOTOR5_PIN2 21 // check again
+#define MOTOR5_PIN2 21
 #define MOTOR6_PIN1 8
 #define MOTOR6_PIN2 7
 #define MOTOR_PIN_COUNT 12
