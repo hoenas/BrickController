@@ -6,7 +6,10 @@ BrickController::BrickController()
     // Setup PWM controllers
     for (int i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        analogWrite(this->motorPins[i], 0);
+        Serial.print("Seting up motor pin: ");
+        Serial.println(this->motorPins[i]);
+        ledcSetup(i, LEDC_FREQUENCY, LEDC_RESOLUTION);
+        ledcAttachPin(this->motorPins[i], i);
     }
 }
 
@@ -14,19 +17,20 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_d
 {
     if (motor >= 0 && motor < MOTOR_PIN_COUNT / 2)
     {
-        float normalized_speed = max(0.0f, motor_speed);
-        normalized_speed = min(100.0f, normalized_speed);
+        float calulated_duty_cycle = max(0.0f, motor_speed);
+        calulated_duty_cycle = min(100.0f, calulated_duty_cycle);
+        calulated_duty_cycle = round(((LEDC_WRITE_MAX_VALUE - LEDC_WRITE_MIN_VALUE) / 100.0f) * calulated_duty_cycle);
 
-        Serial.println(normalized_speed);
+        Serial.println(calulated_duty_cycle);
         if (motor_direction == Right)
         {
-            analogWrite(motorPins[motor * 2], (uint8_t)round(normalized_speed), MOTOR_MAX_VALUE);
-            analogWrite(motorPins[motor * 2 + 1], 0);
+            ledcWrite(motor * 2, (uint32_t)calulated_duty_cycle);
+            ledcWrite(motor * 2 + 1, 0);
         }
         else
         {
-            analogWrite(motorPins[motor * 2], 0);
-            analogWrite(motorPins[motor * 2 + 1], (uint8_t)round(normalized_speed), MOTOR_MAX_VALUE);
+            ledcWrite(motor * 2, 0);
+            ledcWrite(motor * 2 + 1, (uint32_t)calulated_duty_cycle);
         }
     }
 }
@@ -50,6 +54,6 @@ void BrickController::haltMotors()
 {
     for (uint8_t i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        analogWrite(motorPins[i], 0);
+        ledcWrite(i, 0);
     }
 }
