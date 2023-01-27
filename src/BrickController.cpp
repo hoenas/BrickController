@@ -2,11 +2,11 @@
 
 BrickController::BrickController()
 {
+
     // Setup PWM controllers
     for (int i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        this->pwmInstances[i] = new ESP32_FAST_PWM(this->motorPins[i], PWM_FREQUENCY, DUTY_CYCLE_OFF, i, PWM_RESOLUTION);
-        this->pwmInstances[i]->setPWM();
+        analogWrite(this->motorPins[i], 0);
     }
 }
 
@@ -14,24 +14,19 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_d
 {
     if (motor >= 0 && motor < MOTOR_PIN_COUNT / 2)
     {
-        float normalized_speed = max(DUTY_CYCLE_OFF, motor_speed);
-        normalized_speed = min(DUTY_CYCLE_MAX_ON, normalized_speed);
-        // Check if speed is below threshold
-        float percentage = DUTY_CYCLE_OFF;
-        if (normalized_speed > DUTY_CYCLE_MAX_ZERO_PERCENTAGE)
-        {
-            percentage = DUTY_CYCLE_GRADIENT * normalized_speed + DUTY_CYCLE_MIN_ON;
-        }
-        Serial.println(percentage);
+        float normalized_speed = max(0.0f, motor_speed);
+        normalized_speed = min(100.0f, normalized_speed);
+
+        Serial.println(normalized_speed);
         if (motor_direction == Right)
         {
-            this->pwmInstances[2 * motor]->setPWM(motorPins[motor * 2], PWM_FREQUENCY, percentage);
-            this->pwmInstances[2 * motor + 1]->setPWM(motorPins[motor * 2 + 1], PWM_FREQUENCY, DUTY_CYCLE_OFF);
+            analogWrite(motorPins[motor * 2], (uint8_t)round(normalized_speed), MOTOR_MAX_VALUE);
+            analogWrite(motorPins[motor * 2 + 1], 0);
         }
         else
         {
-            this->pwmInstances[2 * motor]->setPWM(motorPins[motor * 2], PWM_FREQUENCY, DUTY_CYCLE_OFF);
-            this->pwmInstances[2 * motor + 1]->setPWM(motorPins[motor * 2 + 1], PWM_FREQUENCY, percentage);
+            analogWrite(motorPins[motor * 2], 0);
+            analogWrite(motorPins[motor * 2 + 1], (uint8_t)round(normalized_speed), MOTOR_MAX_VALUE);
         }
     }
 }
@@ -40,14 +35,14 @@ void BrickController::setMotor(uint8_t motor, float motorSpeed, uint8_t motorDir
 {
     this->setMotor(motor, motorSpeed, motorDirection);
     delay(duration);
-    this->setMotor(motor, DUTY_CYCLE_OFF, motorDirection);
+    this->setMotor(motor, 0, motorDirection);
 }
 
-void BrickController::setMotors(uint8_t *motors, float *motorSpeeds, uint8_t *motorDirections, uint8_t motorCount)
+void BrickController::setMotors(uint8_t *motors, float motorSpeed, uint8_t motorDirection, uint8_t motorCount)
 {
-    for (uint8_t i = 0; i < motorCount; i++)
+    for (uint8_t i; i < motorCount; i++)
     {
-        this->setMotor(motors[i], motorSpeeds[i], motorDirections[i]);
+        this->setMotor(motors[i], motorSpeed, motorDirection);
     }
 }
 
@@ -55,6 +50,6 @@ void BrickController::haltMotors()
 {
     for (uint8_t i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        this->pwmInstances[i]->setPWM(this->motorPins[i], PWM_FREQUENCY, DUTY_CYCLE_OFF);
+        analogWrite(motorPins[i], 0);
     }
 }
