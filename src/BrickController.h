@@ -24,19 +24,13 @@
 #define LEDC_WRITE_MAX_VALUE pow(2, LEDC_RESOLUTION)
 #define MOTOR_MAX_VALUE 100
 
-enum Direction
-{
-    Right = 0,
-    Left = 1
-};
-
 class BrickController
 {
 public:
     BrickController();
-    void setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection);
-    void setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection, unsigned long duration);
-    void setMotors(uint8_t *motors, float motorSpeed, uint8_t motorDirection, uint8_t motorCount);
+    void setMotor(uint8_t motor, float motorSpeed);
+    void setMotor(uint8_t motor, float motorSpeed, unsigned long duration);
+    void setMotors(uint8_t *motors, float motorSpeed, uint8_t motorCount);
     void haltMotors();
 
 private:

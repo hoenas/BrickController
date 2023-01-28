@@ -13,16 +13,16 @@ BrickController::BrickController()
     }
 }
 
-void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_direction)
+void BrickController::setMotor(uint8_t motor, float motor_speed)
 {
     if (motor >= 0 && motor < MOTOR_PIN_COUNT / 2)
     {
-        float calulated_duty_cycle = max(0.0f, motor_speed);
+        float calulated_duty_cycle = max(-100.0f, motor_speed);
         calulated_duty_cycle = min(100.0f, calulated_duty_cycle);
         calulated_duty_cycle = round(((LEDC_WRITE_MAX_VALUE - LEDC_WRITE_MIN_VALUE) / 100.0f) * calulated_duty_cycle);
 
         Serial.println(calulated_duty_cycle);
-        if (motor_direction == Right)
+        if (motor_speed >= 0)
         {
             ledcWrite(motor * 2, (uint32_t)calulated_duty_cycle);
             ledcWrite(motor * 2 + 1, 0);
@@ -30,23 +30,23 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_d
         else
         {
             ledcWrite(motor * 2, 0);
-            ledcWrite(motor * 2 + 1, (uint32_t)calulated_duty_cycle);
+            ledcWrite(motor * 2 + 1, (uint32_t)-1 * calulated_duty_cycle);
         }
     }
 }
 
-void BrickController::setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection, unsigned long duration)
+void BrickController::setMotor(uint8_t motor, float motorSpeed, unsigned long duration)
 {
-    this->setMotor(motor, motorSpeed, motorDirection);
+    this->setMotor(motor, motorSpeed);
     delay(duration);
-    this->setMotor(motor, 0, motorDirection);
+    this->setMotor(motor, 0);
 }
 
-void BrickController::setMotors(uint8_t *motors, float motorSpeed, uint8_t motorDirection, uint8_t motorCount)
+void BrickController::setMotors(uint8_t *motors, float motorSpeed, uint8_t motorCount)
 {
     for (uint8_t i; i < motorCount; i++)
     {
-        this->setMotor(motors[i], motorSpeed, motorDirection);
+        this->setMotor(motors[i], motorSpeed);
     }
 }
 

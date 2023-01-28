@@ -4,7 +4,7 @@
   "keywords": "timing, device, control, pwm, timer, interrupt, hardware, isr, isr-based, hardware-timer, isr-timer, isr-based-timer, mission-critical, accuracy, precise, non-blocking, esp32, esp32-s2, esp32-c3, esp32-s3, synchronized-PWM, on-the-fly",
   "description": "Library for BrickController",
   "authors": {
-    "name": "Jonas Maas",
+    "name": "Hoe Nas",
     "url": "https://github.com/hoenas",
     "maintainer": true
   },
