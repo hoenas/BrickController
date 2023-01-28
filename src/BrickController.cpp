@@ -6,8 +6,6 @@ BrickController::BrickController()
     // Setup PWM controllers
     for (int i = 0; i < MOTOR_PIN_COUNT; i++)
     {
-        Serial.print("Seting up motor pin: ");
-        Serial.println(this->motorPins[i]);
         ledcSetup(i, LEDC_FREQUENCY, LEDC_RESOLUTION);
         ledcAttachPin(this->motorPins[i], i);
     }
@@ -20,8 +18,6 @@ void BrickController::setMotor(uint8_t motor, float motor_speed)
         float calulated_duty_cycle = max(-100.0f, motor_speed);
         calulated_duty_cycle = min(100.0f, calulated_duty_cycle);
         calulated_duty_cycle = round(((LEDC_WRITE_MAX_VALUE - LEDC_WRITE_MIN_VALUE) / 100.0f) * calulated_duty_cycle);
-
-        Serial.println(calulated_duty_cycle);
         if (motor_speed >= 0)
         {
             ledcWrite(motor * 2, (uint32_t)calulated_duty_cycle);
