@@ -30,7 +30,7 @@ void BrickController::setMotor(uint8_t motor, float motor_speed)
         else
         {
             ledcWrite(motor * 2, 0);
-            ledcWrite(motor * 2 + 1, (uint32_t)calulated_duty_cycle);
+            ledcWrite(motor * 2 + 1, (uint32_t)-1 * calulated_duty_cycle);
         }
     }
 }
