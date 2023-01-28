@@ -22,7 +22,7 @@ void BrickController::setMotor(uint8_t motor, float motor_speed, uint8_t motor_d
         calulated_duty_cycle = round(((LEDC_WRITE_MAX_VALUE - LEDC_WRITE_MIN_VALUE) / 100.0f) * calulated_duty_cycle);
 
         Serial.println(calulated_duty_cycle);
-        if (motor_direction == Right)
+        if (motor_direction == this->Right)
         {
             ledcWrite(motor * 2, (uint32_t)calulated_duty_cycle);
             ledcWrite(motor * 2 + 1, 0);
