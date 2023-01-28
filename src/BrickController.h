@@ -28,15 +28,10 @@ class BrickController
 {
 public:
     BrickController();
-    void setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection);
-    void setMotor(uint8_t motor, float motorSpeed, uint8_t motorDirection, unsigned long duration);
-    void setMotors(uint8_t *motors, float motorSpeed, uint8_t motorDirection, uint8_t motorCount);
+    void setMotor(uint8_t motor, float motorSpeed);
+    void setMotor(uint8_t motor, float motorSpeed, unsigned long duration);
+    void setMotors(uint8_t *motors, float motorSpeed, uint8_t motorCount);
     void haltMotors();
-    enum Direction
-    {
-        Right,
-        Left
-    };
 
 private:
     uint32_t motorPins[MOTOR_PIN_COUNT] = {MOTOR1_PIN1, MOTOR1_PIN2, MOTOR2_PIN1, MOTOR2_PIN2, MOTOR3_PIN1, MOTOR3_PIN2, MOTOR4_PIN1, MOTOR4_PIN2, MOTOR5_PIN1, MOTOR5_PIN2, MOTOR6_PIN1, MOTOR6_PIN2};
